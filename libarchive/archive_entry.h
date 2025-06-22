@@ -272,6 +272,7 @@ __LA_DECL int		 archive_entry_atime_is_set(struct archive_entry *);
 __LA_DECL __LA_TIME_T	 archive_entry_birthtime(struct archive_entry *);
 __LA_DECL long		 archive_entry_birthtime_nsec(struct archive_entry *);
 __LA_DECL int		 archive_entry_birthtime_is_set(struct archive_entry *);
+__LA_DECL uint32_t   archive_entry_crc32(struct archive_entry *);
 __LA_DECL __LA_TIME_T	 archive_entry_ctime(struct archive_entry *);
 __LA_DECL long		 archive_entry_ctime_nsec(struct archive_entry *);
 __LA_DECL int		 archive_entry_ctime_is_set(struct archive_entry *);
@@ -347,6 +348,7 @@ __LA_DECL void archive_entry_copy_bhfi(struct archive_entry *, BY_HANDLE_FILE_IN
 #endif
 __LA_DECL void	archive_entry_set_birthtime(struct archive_entry *, __LA_TIME_T, long);
 __LA_DECL void  archive_entry_unset_birthtime(struct archive_entry *);
+__LA_DECL void	archive_entry_set_crc32(struct archive_entry *, uint32_t);
 __LA_DECL void	archive_entry_set_ctime(struct archive_entry *, __LA_TIME_T, long);
 __LA_DECL void  archive_entry_unset_ctime(struct archive_entry *);
 __LA_DECL void	archive_entry_set_dev(struct archive_entry *, __LA_DEV_T);

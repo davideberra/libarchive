@@ -189,6 +189,7 @@ archive_entry_clone(struct archive_entry *entry)
 	entry2->ae_stat = entry->ae_stat;
 	entry2->ae_fflags_set = entry->ae_fflags_set;
 	entry2->ae_fflags_clear = entry->ae_fflags_clear;
+	entry2->ae_crc32 = entry->ae_crc32;
 
 	/* TODO: XXX If clone can have a different archive, what do we do here if
 	 * character sets are different? XXX */
@@ -309,6 +310,12 @@ int
 archive_entry_birthtime_is_set(struct archive_entry *entry)
 {
 	return (entry->ae_set & AE_SET_BIRTHTIME);
+}
+
+uint32_t  
+archive_entry_crc32(struct archive_entry *entry)
+{
+	return (entry->ae_crc32);
 }
 
 __LA_TIME_T
@@ -1123,6 +1130,12 @@ archive_entry_unset_birthtime(struct archive_entry *entry)
 {
 	archive_entry_set_birthtime(entry, 0, 0);
 	entry->ae_set &= ~AE_SET_BIRTHTIME;
+}
+
+void
+archive_entry_set_crc32(struct archive_entry *entry, uint32_t crc32)
+{
+	entry->ae_crc32 = crc32;
 }
 
 void

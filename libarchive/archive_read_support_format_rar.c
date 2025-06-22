@@ -1010,6 +1010,9 @@ archive_read_format_rar_read_header(struct archive_read *a,
       }
 
       crc32_val = crc32(0, (const unsigned char *)p + 2, (unsigned)skip - 2);
+
+      archive_entry_set_crc32(entry, archive_le32dec(p));
+      
       if ((crc32_val & 0xffff) != archive_le16dec(p)) {
 #ifndef DONT_FAIL_ON_CRC_ERROR
         archive_set_error(&a->archive, ARCHIVE_ERRNO_FILE_FORMAT,
