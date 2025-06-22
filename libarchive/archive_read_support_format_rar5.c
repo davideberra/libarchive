@@ -1999,6 +1999,9 @@ static int process_head_file(struct archive_read* a, struct rar5* rar,
 		rar->cstate.initialized = 0;
 	}
 
+
+	archive_entry_set_crc32(entry, crc);
+
 	if(rar->generic.split_before > 0) {
 		/* If now we're standing on a header that has a 'split before'
 		 * mark, it means we're standing on a 'continuation' file

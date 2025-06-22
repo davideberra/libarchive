@@ -2523,77 +2523,167 @@ static const char *redirectArgs = ">NUL 2>NUL"; /* Win32 cmd.exe */
 #else
 static const char *redirectArgs = ">/dev/null 2>/dev/null"; /* POSIX 'sh' */
 #endif
-
-/*
- * Can this platform run the specified command?
- */
-int
-canRunCommand(const char *cmd, int *tested)
-{
-  int value = tested ? *tested : 0;
-  if (!value) {
-    value = systemf("%s %s", cmd, redirectArgs) ? -1 : +1;
-    if (tested)
-      *tested = value;
-  }
-  return (value > 0);
-}
-
-#define CAN_RUN_FUNC(Program, Command) \
-    int can##Program(void) { \
-            static int tested = 0; \
-            return canRunCommand((Command), &tested); \
-    }
-
 /*
  * Can this platform run the bzip2 program?
  */
-CAN_RUN_FUNC(Bzip2, "bzip2 --help");
+int
+canBzip2(void)
+{
+	static int tested = 0, value = 0;
+	if (!tested) {
+		tested = 1;
+		if (systemf("bzip2 --help %s", redirectArgs) == 0)
+			value = 1;
+	}
+	return (value);
+}
 
 /*
  * Can this platform run the grzip program?
  */
-CAN_RUN_FUNC(Grzip, "grzip -V");
+int
+canGrzip(void)
+{
+	static int tested = 0, value = 0;
+	if (!tested) {
+		tested = 1;
+		if (systemf("grzip -V %s", redirectArgs) == 0)
+			value = 1;
+	}
+	return (value);
+}
 
 /*
  * Can this platform run the gzip program?
  */
-CAN_RUN_FUNC(Gzip, "gzip --help");
+int
+canGzip(void)
+{
+	static int tested = 0, value = 0;
+	if (!tested) {
+		tested = 1;
+		if (systemf("gzip --help %s", redirectArgs) == 0)
+			value = 1;
+	}
+	return (value);
+}
 
 /*
  * Can this platform run the lrzip program?
  */
-CAN_RUN_FUNC(Lrzip, "lrzip -V");
+int
+canRunCommand(const char *cmd)
+{
+  static int tested = 0, value = 0;
+  if (!tested) {
+    tested = 1;
+    if (systemf("%s %s", cmd, redirectArgs) == 0)
+      value = 1;
+  }
+  return (value);
+}
+
+int
+canLrzip(void)
+{
+	static int tested = 0, value = 0;
+	if (!tested) {
+		tested = 1;
+		if (systemf("lrzip -V %s", redirectArgs) == 0)
+			value = 1;
+	}
+	return (value);
+}
 
 /*
  * Can this platform run the lz4 program?
  */
-CAN_RUN_FUNC(Lz4, "lz4 --help");
+int
+canLz4(void)
+{
+	static int tested = 0, value = 0;
+	if (!tested) {
+		tested = 1;
+		if (systemf("lz4 --help %s", redirectArgs) == 0)
+			value = 1;
+	}
+	return (value);
+}
 
 /*
  * Can this platform run the zstd program?
  */
-CAN_RUN_FUNC(Zstd, "zstd --help");
+int
+canZstd(void)
+{
+	static int tested = 0, value = 0;
+	if (!tested) {
+		tested = 1;
+		if (systemf("zstd --help %s", redirectArgs) == 0)
+			value = 1;
+	}
+	return (value);
+}
 
 /*
  * Can this platform run the lzip program?
  */
-CAN_RUN_FUNC(Lzip, "lzip --help");
+int
+canLzip(void)
+{
+	static int tested = 0, value = 0;
+	if (!tested) {
+		tested = 1;
+		if (systemf("lzip --help %s", redirectArgs) == 0)
+			value = 1;
+	}
+	return (value);
+}
 
 /*
  * Can this platform run the lzma program?
  */
-CAN_RUN_FUNC(Lzma, "lzma --help");
+int
+canLzma(void)
+{
+	static int tested = 0, value = 0;
+	if (!tested) {
+		tested = 1;
+		if (systemf("lzma --help %s", redirectArgs) == 0)
+			value = 1;
+	}
+	return (value);
+}
 
 /*
  * Can this platform run the lzop program?
  */
-CAN_RUN_FUNC(Lzop, "lzop --help");
+int
+canLzop(void)
+{
+	static int tested = 0, value = 0;
+	if (!tested) {
+		tested = 1;
+		if (systemf("lzop --help %s", redirectArgs) == 0)
+			value = 1;
+	}
+	return (value);
+}
 
 /*
  * Can this platform run the xz program?
  */
-CAN_RUN_FUNC(Xz, "xz --help");
+int
+canXz(void)
+{
+	static int tested = 0, value = 0;
+	if (!tested) {
+		tested = 1;
+		if (systemf("xz --help %s", redirectArgs) == 0)
+			value = 1;
+	}
+	return (value);
+}
 
 /*
  * Can this filesystem handle nodump flags.
@@ -3491,7 +3581,7 @@ set_environment(const char *key, const char *value)
  * Enforce C locale for (sub)processes.
  */
 static void
-set_c_locale(void)
+set_c_locale()
 {
 	static const char *lcs[] = {
 		"LC_ADDRESS",

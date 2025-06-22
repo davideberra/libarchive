@@ -80,7 +80,7 @@
 /*
  * ELF format
  */
-#define ELF_HDR_MIN_LEN 0x3f
+#define ELF_HDR_MIN_LEN 0x34
 #define ELF_HDR_EI_CLASS_OFFSET 0x04
 #define ELF_HDR_EI_DATA_OFFSET 0x05
 
@@ -811,8 +811,6 @@ find_elf_data_sec(struct archive_read *a)
 			strtab_size = (*dec32)(
 			    h + e_shstrndx * e_shentsize + 0x14);
 		}
-		if (strtab_size < 6 || strtab_size > SIZE_MAX)
-			break;
 
 		/*
 		 * Read the STRTAB section to find the .data offset
@@ -985,6 +983,13 @@ archive_read_format_7zip_read_header(struct archive_read *a,
 		zip->entry_bytes_remaining = 0;
 		archive_entry_set_size(entry, 0);
 	}
+
+
+		/* Update checksum */
+	if (zip_entry->flg & CRC32_IS_SET) {
+		archive_entry_set_crc32(entry, zip->si.ss.digests[zip_entry->ssIndex]);
+	}
+		
 
 	// These attributes are supported by the windows implementation of archive_write_disk.
 	const int supported_attrs = FILE_ATTRIBUTE_READONLY | FILE_ATTRIBUTE_HIDDEN | FILE_ATTRIBUTE_SYSTEM;

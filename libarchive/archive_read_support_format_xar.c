@@ -930,7 +930,7 @@ xar_read_data(struct archive_read *a,
 abort_read_data:
 	*buff = NULL;
 	*size = 0;
-	*offset = (int64_t)xar->entry_total;
+	*offset = xar->total;
 	return (r);
 }
 

@@ -641,14 +641,13 @@ __la_waitpid(HANDLE child, int *status, int option)
 	(void)option;/* UNUSED */
 	do {
 		if (GetExitCodeProcess(child, &cs) == 0) {
-			la_dosmaperr(GetLastError());
 			CloseHandle(child);
+			la_dosmaperr(GetLastError());
 			*status = 0;
 			return (-1);
 		}
 	} while (cs == STILL_ACTIVE);
 
-	CloseHandle(child);
 	*status = (int)(cs & 0xff);
 	return (0);
 }
