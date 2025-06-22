@@ -161,7 +161,6 @@ struct archive_entry {
 	struct archive_mstring ae_linkname;	/* Name of target for hardlink or symlink */
 	struct archive_mstring ae_pathname;	/* Name of entry */
 	struct archive_mstring ae_uname;		/* Name of owner */
-	uint32_t ae_crc32;
 
 	/* Not used within libarchive; useful for some clients. */
 	struct archive_mstring ae_sourcepath;	/* Path this entry is sourced from. */

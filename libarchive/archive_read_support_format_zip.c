@@ -1156,7 +1156,6 @@ zip_read_local_file_header(struct archive_read *a, struct archive_entry *entry,
 	archive_entry_set_mtime(entry, zip_entry->mtime, 0);
 	archive_entry_set_ctime(entry, zip_entry->ctime, 0);
 	archive_entry_set_atime(entry, zip_entry->atime, 0);
-	archive_entry_set_crc32(entry, zip_entry->crc32);
 
 	if ((zip->entry->mode & AE_IFMT) == AE_IFLNK) {
 		size_t linkname_length;
